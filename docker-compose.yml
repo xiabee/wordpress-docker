@@ -1,0 +1,65 @@
+version: '2'
+services:
+    mysql:
+        # 选中mariadb的最新版本
+        image: mariadb:latest
+        # 端口
+        expose:
+          - "3306"
+        #映射本地 当前目录下mysql文件夹持久化
+        volumes:
+          - ./mysql:/var/lib/mysql
+        #环境变量设置用户名密码
+        environment:
+          - MYSQL_ROOT_PASSWORD= #在此设置密码
+          - MYSQL_USER=wordpress
+          - MYSQL_PASSWORD= #在此设置密码
+          - MYSQL_DATABASE=wordpress
+          - MYSQL_RANDOM_ROOT_PASSWORD=1
+        #挂掉自动重启
+        restart: always
+
+    wordpress:
+        # 选中带有php-fpm 的版本，wordpress docker上有很多版本，根据自己情况选择需要的版本
+        image: wordpress:5.2.0-php7.3-fpm
+        # 把wordpress的主体文件夹映射到本地 wordpress目录
+        volumes:
+            - ./wordpress:/var/www/html
+        # 环境变量 根据mysql 设置的填入
+        environment:
+            - WORDPRESS_DB_HOST=mysql
+            - WORDPRESS_DB_NAME=wordpress
+            - WORDPRESS_DB_USER=wordpress
+            - WORDPRESS_DB_PASSWORD= #在此填写密码
+        # 设置依赖
+        depends_on:
+            - mysql
+        restart: always
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        ports:
+            - "8080:80"
+        # 根据mysql设置相关环境变量
+        environment:
+            - PMA_HOST=mysql
+            - PMA_USER=wordpress
+            - PMA_PASSWORD= #在此填写密码
+        depends_on:
+                - mysql
+                - nginx
+        restart: always
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - '80:80'
+            - '443:443'
+        # 映射本地，加载本地的配置
+        volumes:
+            - ./nginx:/etc/nginx/conf.d
+            - ./logs/nginx:/var/log/nginx
+            - ./wordpress:/var/www/html  #这里选择本地wordpress即 wordpress docker中的目录
+        depends_on:
+            - wordpress
+        restart: always
