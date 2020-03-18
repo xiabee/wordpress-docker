@@ -1,4 +1,5 @@
-version: '2'
+version: '2.0'
+#不写版本号可能会报错
 services:
     mysql:
         # 选中mariadb的最新版本
@@ -11,17 +12,20 @@ services:
           - ./mysql:/var/lib/mysql
         #环境变量设置用户名密码
         environment:
-          - MYSQL_ROOT_PASSWORD= #在此设置密码
+          - MYSQL_ROOT_PASSWORD=    #这里设置密码
           - MYSQL_USER=wordpress
-          - MYSQL_PASSWORD= #在此设置密码
+          - MYSQL_PASSWORD=    #这里设置密码
           - MYSQL_DATABASE=wordpress
           - MYSQL_RANDOM_ROOT_PASSWORD=1
+
+        #这里使用命令登陆，删除后可能于新版mysql不兼容
+        command: [--default-authentication-plugin=mysql_native_password, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
         #挂掉自动重启
-        restart: always
+        #restart: always
 
     wordpress:
         # 选中带有php-fpm 的版本，wordpress docker上有很多版本，根据自己情况选择需要的版本
-        image: wordpress:5.2.0-php7.3-fpm
+        image: wordpress:5.3.2-php7.2-fpm
         # 把wordpress的主体文件夹映射到本地 wordpress目录
         volumes:
             - ./wordpress:/var/www/html
@@ -30,11 +34,11 @@ services:
             - WORDPRESS_DB_HOST=mysql
             - WORDPRESS_DB_NAME=wordpress
             - WORDPRESS_DB_USER=wordpress
-            - WORDPRESS_DB_PASSWORD= #在此填写密码
+            - WORDPRESS_DB_PASSWORD=    #这里填写密码
         # 设置依赖
         depends_on:
             - mysql
-        restart: always
+        #restart: always
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:latest
@@ -44,11 +48,11 @@ services:
         environment:
             - PMA_HOST=mysql
             - PMA_USER=wordpress
-            - PMA_PASSWORD= #在此填写密码
+            - PMA_PASSWORD=    #这里填写密码
         depends_on:
-                - mysql
-                - nginx
-        restart: always
+            - mysql
+            - nginx
+        #restart: always
 
     nginx:
         image: nginx:latest
@@ -57,9 +61,12 @@ services:
             - '443:443'
         # 映射本地，加载本地的配置
         volumes:
-            - ./nginx:/etc/nginx/conf.d
+            - ./nginx:/etc/nginx/conf.d    #注意服务器配置文件的映射位置，如果需要修改配置，直接修改映射的文件即可
             - ./logs/nginx:/var/log/nginx
-            - ./wordpress:/var/www/html  #这里选择本地wordpress即 wordpress docker中的目录
+            - ./wordpress:/var/www/html  #这里选择本地wordpress即 wordpress。docker中的目录
         depends_on:
             - wordpress
-        restart: always
+        #restart: always
+
+    #这里配置局域网模式，以默认桥接方式建立局域网
+    
