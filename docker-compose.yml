@@ -40,20 +40,6 @@ services:
             - mysql
         #restart: always
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin:latest
-        ports:
-            - "8080:80"
-        # 根据mysql设置相关环境变量
-        environment:
-            - PMA_HOST=mysql
-            - PMA_USER=wordpress
-            - PMA_PASSWORD=    #这里填写密码
-        depends_on:
-            - mysql
-            - nginx
-        #restart: always
-
     nginx:
         image: nginx:latest
         ports:

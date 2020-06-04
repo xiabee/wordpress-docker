@@ -59,8 +59,7 @@ docker + nginx +mysql + wordpress 一键式搭建个人博客
       Name                    Command               State                    Ports                  
 ----------------------------------------------------------------------------------------------------
 web_mysql_1        docker-entrypoint.sh mysqld      Up      3306/tcp                                
-web_nginx_1        nginx -g daemon off;             Up      0.0.0.0:443->443/tcp, 0.0.0.0:80->80/tcp
-web_phpmyadmin_1   /docker-entrypoint.sh apac ...   Up      0.0.0.0:8080->80/tcp                    
+web_nginx_1        nginx -g daemon off;             Up      0.0.0.0:443->443/tcp, 0.0.0.0:80->80/t
 web_wordpress_1    docker-entrypoint.sh php-fpm     Up      9000/tcp 
 ```
 
