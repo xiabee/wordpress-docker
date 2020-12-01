@@ -1,4 +1,4 @@
-# docker-ngixn
+# docker-compose: Wordpress
 
 docker + nginx + wordpress , to build a personal blog website
 <br>
