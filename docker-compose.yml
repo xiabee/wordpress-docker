@@ -1,7 +1,7 @@
 version: '2.0'
 #不写版本号可能会报错
 services:
-    mysql:
+    mariadb:
         # 选中mariadb的最新版本
         image: mariadb:latest
         # 端口
@@ -17,15 +17,16 @@ services:
           - MYSQL_PASSWORD=    #这里设置密码
           - MYSQL_DATABASE=wordpress
           - MYSQL_RANDOM_ROOT_PASSWORD=1
+          # 使用随机root密码
 
         #这里使用命令登陆，删除后可能于新版mysql不兼容
         command: [--default-authentication-plugin=mysql_native_password, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
         #挂掉自动重启
-        #restart: always
+        restart: always
 
     wordpress:
         # 选中带有php-fpm 的版本，wordpress docker上有很多版本，根据自己情况选择需要的版本
-        image: wordpress:5.3.2-php7.2-fpm
+        image: wordpress:5.7.2-php8.0-fpm
         # 把wordpress的主体文件夹映射到本地 wordpress目录
         volumes:
             - ./wordpress:/var/www/html
@@ -37,8 +38,8 @@ services:
             - WORDPRESS_DB_PASSWORD=    #这里填写密码
         # 设置依赖
         depends_on:
-            - mysql
-        #restart: always
+            - mariadb
+        restart: always
 
     nginx:
         image: nginx:latest
@@ -52,7 +53,6 @@ services:
             - ./wordpress:/var/www/html  #这里选择本地wordpress即 wordpress。docker中的目录
         depends_on:
             - wordpress
-        #restart: always
-
+        restart: always
     #这里配置局域网模式，以默认桥接方式建立局域网
     
