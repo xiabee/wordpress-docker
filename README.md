@@ -1,6 +1,7 @@
 # docker-compose: Wordpress
 
-`docker + nginx + mariadb+ wordpress` 一键式搭建个人博客
+`docker + nginx + mariadb + wordpress` 一键式搭建个人博客
+
 环境依赖：`docker`
 <br>
 
