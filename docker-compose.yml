@@ -26,7 +26,7 @@ services:
 
     wordpress:
         # 选中带有php-fpm 的版本，wordpress docker上有很多版本，根据自己情况选择需要的版本
-        image: wordpress:5.7.2-php8.0-fpm
+        image: wordpress:5.8.1-php8.0-fpm
         # 把wordpress的主体文件夹映射到本地 wordpress目录
         volumes:
             - ./wordpress:/var/www/html
