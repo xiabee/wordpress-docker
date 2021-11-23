@@ -3,7 +3,12 @@
 `docker + nginx + mariadb + wordpress` 一键式搭建个人博客
 
 环境依赖：`docker`
-<br>
+
+```bash
+sudo apt install docker docker-compose
+```
+
+
 
 #### 更新说明
 
@@ -18,7 +23,7 @@
 
 删除`nginx`文件夹里面的`nginx_https.conf`
 
-配置`docker compose.yml`文件，修改环境变量，设置密码
+配置`docker-compose.yml`文件，修改环境变量，设置密码
 
 进入目录并运行`docker compose up-d`
 
