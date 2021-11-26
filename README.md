@@ -36,20 +36,49 @@
 
 ### 搭建步骤
 
-```bash
-git clone https://github.com/xiabee/wordpress-docker.git
-cd wordpress-docker
-rm nginx/nginx_https.conf
-docker-compose up -d
-```
+* 将代码克隆到目标机器
+
+  ```bash
+  git clone https://github.com/xiabee/wordpress-docker.git
+  cd wordpress-docker
+  ```
+
+  
 
 * 删除`nginx`文件夹里面的`nginx_https.conf`
 
+  ```bash
+  rm nginx/nginx_https.conf
+  ```
+
+  
+
 * 配置`docker-compose.yml`文件，修改环境变量，设置密码
 
-* 进入目录并执行命令`docker-compose up -d`
+  ```yml
+  wordpress:
+      environment:
+          WORDPRESS_DB_HOST: mariadb:3306
+          WORDPRESS_DB_USER: wordpress
+          WORDPRESS_DB_PASSWORD: wordpress-pass
+          WORDPRESS_DB_NAME: wordpress
+  
+  mariadb:
+  	environment:
+          MYSQL_ROOT_PASSWORD: root-pass
+          MYSQL_DATABASE: wordpress
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress-pass
+          MYSQL_RANDOM_ROOT_PASSWORD: 1
+  ```
 
+  
 
+* 启动服务
+
+  ```bash
+  docker-compose up -d
+  ```
 
 
 
@@ -74,18 +103,79 @@ docker-compose up -d
 
 ### 搭建步骤
 
-```bash
-git clone https://github.com/xiabee/wordpress-docker.git
-cd wordpress-docker
-rm nginx/nginx.conf
-docker-compose up -d
-```
+* 将代码克隆到目标机器
 
-* 将证书文件上传至宿主机`./nginx`文件夹
+  ```bash
+  git clone https://github.com/xiabee/wordpress-docker.git
+  cd wordpress-docker
+  ```
+
+  
+
 * 删除`nginx.conf`
+
+  ```bash
+  rm nginx/nginx.conf
+  ```
+
+  
+
+* 将证书文件上传至宿主机`./nginx`文件夹，结果如下：
+
+  ```bash
+  nginx
+     ├── cert.cer
+     ├── cert.key
+     └── nginx_https.conf
+  ```
+
+  
+
 * 配置`nginx_https.conf`文件，修改证书对应的路径
+
+  ```nginx
+  server {
+      listen 443 ssl;
+      server_name domain name.com; 
+      #这里的domain name.com换成您的域名
+      ...
+      ssl_certificate ./conf.d/domain name.com;   
+      #将domain name.pem替换成您证书的文件名。
+      ssl_certificate_key ./conf.d/domain name.key;   
+      #将domain name.key替换成您证书的密钥文件名。
+  }
+  ```
+
+  
+
 * 配置`docker-compose.yml`文件，修改环境变量，设置密码
-* 进入目录并执行命令`docker-compose up -d`
+
+  ```yml
+  wordpress:
+      environment:
+          WORDPRESS_DB_HOST: mariadb:3306
+          WORDPRESS_DB_USER: wordpress
+          WORDPRESS_DB_PASSWORD: wordpress-pass
+          WORDPRESS_DB_NAME: wordpress
+  
+  mariadb:
+  	environment:
+          MYSQL_ROOT_PASSWORD: root-pass
+          MYSQL_DATABASE: wordpress
+          MYSQL_USER: wordpress
+          MYSQL_PASSWORD: wordpress-pass
+          MYSQL_RANDOM_ROOT_PASSWORD: 1
+  ```
+
+  
+
+* 启动服务
+
+  ```bash
+  docker-compose up -d
+  ```
+
+  
 
 
 
