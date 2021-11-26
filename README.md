@@ -19,16 +19,29 @@
 
 ## Http 网站配置说明
 
+* 支持仅IP访问（不需要域名和SSL证书）
+
+### 目录结构
+
+```bash
+.
+├── docker-compose.yml
+├── nginx
+│   └── nginx.conf
+└── README.md
+# 删除nginx_https.conf
+```
+
+
+
+### 搭建步骤
+
 ```bash
 git clone https://github.com/xiabee/wordpress-docker.git
 cd wordpress-docker
 rm nginx/nginx_https.conf
 docker-compose up -d
 ```
-
-
-
-* 将整个文件夹复制到所需目录（包括`nginx`文件夹和里面的`nginx.conf`）<br>
 
 * 删除`nginx`文件夹里面的`nginx_https.conf`
 
@@ -38,9 +51,28 @@ docker-compose up -d
 
 
 
+
+
 ## Https 网站配置说明
 
 * 需要有`可控域名`+`SSL证书`
+
+### 目录结构
+
+```bash
+.
+├── docker-compose.yml
+├── nginx
+│	├── cert.cer
+│   ├── cert.key
+│   └── nginx_https.conf
+└── README.md
+# 删除nginx.conf，并添加证书文件
+```
+
+
+
+### 搭建步骤
 
 ```bash
 git clone https://github.com/xiabee/wordpress-docker.git
@@ -48,8 +80,6 @@ cd wordpress-docker
 rm nginx/nginx.conf
 docker-compose up -d
 ```
-
-
 
 * 将证书文件上传至宿主机`./nginx`文件夹
 * 删除`nginx.conf`
