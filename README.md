@@ -183,7 +183,7 @@
 
 * 如果正常运行的话，输入`docker-compose ps`应该能看到这个：
 
-```
+```bash
       Name                    Command               State                    Ports                  
 -----------------------------------------------------------------------------
 web_mysql_1        docker-entrypoint.sh mysqld      Up      3306/tcp                                
