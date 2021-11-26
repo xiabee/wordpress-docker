@@ -64,7 +64,7 @@
           WORDPRESS_DB_NAME: wordpress
   
   mariadb:
-  	environment:
+      environment:
           MYSQL_ROOT_PASSWORD: root-pass
           MYSQL_DATABASE: wordpress
           MYSQL_USER: wordpress
@@ -159,7 +159,7 @@
           WORDPRESS_DB_NAME: wordpress
   
   mariadb:
-  	environment:
+      environment:
           MYSQL_ROOT_PASSWORD: root-pass
           MYSQL_DATABASE: wordpress
           MYSQL_USER: wordpress
