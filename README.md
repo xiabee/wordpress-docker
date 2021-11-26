@@ -92,7 +92,7 @@
 .
 ├── docker-compose.yml
 ├── nginx
-│	├── cert.cer
+│   ├── cert.cer
 │   ├── cert.key
 │   └── nginx_https.conf
 └── README.md
